@@ -16,7 +16,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @Order(0)
@@ -50,15 +49,19 @@ public class AjaxSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/messages").hasRole("MANAGER")
                 .anyRequest().authenticated()
         .and()
-                .addFilterBefore(ajaxLoginProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
-        ;
-
-        http
                 .exceptionHandling()
                 .authenticationEntryPoint(new AjaxLoginAuthenticationEntryPoint())
                 .accessDeniedHandler(ajaxAccessDeniedHandler());
+/*        .and()
+                .addFilterBefore(ajaxLoginProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
+        ;*/
 
-        http.csrf().disable();
+//        http
+//                .exceptionHandling()
+//                .authenticationEntryPoint(new AjaxLoginAuthenticationEntryPoint())
+//                .accessDeniedHandler(ajaxAccessDeniedHandler());
+
+        //http.csrf().disable();
 
         customConfigurerAjax(http);
     }
